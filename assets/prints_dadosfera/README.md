@@ -17,3 +17,8 @@ print("Gerado:", OUT)
 ## status running na criação das pipilines
 
 <img width="2468" height="809" alt="image" src="https://github.com/user-attachments/assets/b6c9742b-37e7-4703-af4f-58f3ed1e5f58" />
+
+
+## Print com o status da execução
+
+<img width="2430" height="746" alt="image" src="https://github.com/user-attachments/assets/020eebc5-dccb-4e5f-900e-b7668f247425" />
