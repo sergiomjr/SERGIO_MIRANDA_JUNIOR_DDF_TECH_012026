@@ -169,6 +169,7 @@ with open("synthetic_data/generate_product_catalog.py", "w", encoding="utf-8") a
     f.write(code)
 
 print("Script criado ✅  -> synthetic_data/generate_product_catalog.py")
+
 <img width="911" height="77" alt="image" src="https://github.com/user-attachments/assets/b5ea970d-7e2f-4126-8e61-d49f7a6975c2" />
 
 #gerar 200k em JSONL
@@ -176,6 +177,6 @@ from synthetic_data.generate_product_catalog import write_jsonl
 
 OUT = "outputs/product_catalog_200k.jsonl"
 write_jsonl(n=200_000, seed=42, out_path=OUT)
-
 print("Gerado:", OUT)
+
 <img width="702" height="61" alt="image" src="https://github.com/user-attachments/assets/8440319b-c2bd-4f7b-a3f5-460a7474f3b1" />
