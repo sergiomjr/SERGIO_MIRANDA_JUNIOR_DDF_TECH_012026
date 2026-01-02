@@ -14,3 +14,6 @@ print("Gerado:", OUT)
 ## Confirmando o  tamanho e contagem de linhas
 <img width="533" height="424" alt="image" src="https://github.com/user-attachments/assets/2be26308-ac72-4128-9fa0-afa456ef2ff9" />
 
+## status running na criação das pipilines
+
+<img width="2468" height="809" alt="image" src="https://github.com/user-attachments/assets/b6c9742b-37e7-4703-af4f-58f3ed1e5f58" />
