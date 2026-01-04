@@ -31,11 +31,11 @@ Os dados foram organizados conforme um **modelo lógico de Data Lake**, amplamen
 Nesta zona encontram-se os dados **exatamente como foram ingeridos**, sem alterações estruturais ou semânticas.
 
 **CAMADA BRONZE(RAW)**
-- DDF_TECH_BRONZE_OLIST_ORDERS
-- DDF_TECH_BRONZE_OLIST_ORDER_ITEMS
-- DDF_TECH_BRONZE_OLIST_CUSTOMERS
-- DDF_TECH_BRONZE_OLIST_PRODUCTS
-- DDF_TECH_BRONZE_OLIST_SELLERS
+- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_ORDERS
+- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_ORDER_ITEMS
+- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_CUSTOMERS
+- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_PRODUCTS
+- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_SELLERS
 
 
 
@@ -68,9 +68,9 @@ A zona STAGING contém dados **limpos, padronizados e validados**, prontos para 
 - Tratamento de valores nulos
 
 **Camada Silver**
-DDF_TECH_SILVER_OLIST
+SERGIO_MIRANDA_DDF_TECH_SILVER_OLIST
 
-***Dentro do DDF_TECH_SILVER_OLIST temos as tabelas***
+***Dentro do SERGIO_MIRANDA_DDF_TECH_SILVER_OLIST temos as tabelas***
 
 - PUBLIC.SILVER__CUSTOMERS
 - PUBLIC.SILVER__ORDERS
@@ -95,6 +95,15 @@ A zona CURATED concentra os **datasets finais**, otimizados para consumo por fer
 - Regras de negócio aplicadas
 - Métricas consolidadas
 - Relacionamentos claros
+  
+**SERGIO_MIRANDA_DDF_TECH_GOLD_OLIST**
+
+- PUBLIC.GOLD__DIM_CUSTOMER
+- PUBLIC.GOLD__DIM_DATE
+- PUBLIC.GOLD__DIM_PRODUCT
+- PUBLIC.GOLD__DIM_SELLER
+- PUBLIC.GOLD__FACT_SALES
+- PUBLIC.GOLD__SELLERS_POR_ESTADO
 
 **Exemplos de datasets:**
 - `fact_sales`
