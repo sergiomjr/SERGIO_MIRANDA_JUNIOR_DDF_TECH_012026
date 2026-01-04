@@ -92,19 +92,19 @@ Essas análises demonstram como dados bem modelados suportam decisões de negóc
 
 ## 🗂️ Estrutura do Repositório
 
-SERGIO_MIRANDA_JUNIOR_DDF_TECH_012026/
-│
-├── docs/
-│ ├── 00_planejamento_pmbok.md
-│ ├── 01_base_de_dados.md
-│ ├── 02_integrar.md
-│ ├── 03_catalogacao_e_exploracao.md
-│ ├── 04_data_quality.md
-│ ├── 06_modelagem_dados.md
-│ ├── 07_analise_dados.md
-│ └── 10_apresentacao_case.md
-│
-└── README.md
+- SERGIO_MIRANDA_JUNIOR_DDF_TECH_012026/
+- │
+- ├── docs/
+- │ ├── 00_planejamento_pmbok.md
+- │ ├── 01_base_de_dados.md
+- │ ├── 02_integrar.md
+- │ ├── 03_catalogacao_e_exploracao.md
+- │ ├── 04_data_quality.md
+- │ ├── 06_modelagem_dados.md
+- │ ├── 07_analise_dados.md
+- │ └── 10_apresentacao_case.md
+- │
+- └── README.md
 
 
 ---
