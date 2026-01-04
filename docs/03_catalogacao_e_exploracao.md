@@ -1,223 +1,121 @@
-# 🔍 Catalogação e Exploração dos Dados
+# Catalogação e Exploração dos Dados
 
-## 1. Introdução
+## 1. Objetivo da Etapa
 
-Este documento descreve o processo de **catalogação, organização e exploração dos dados** integrados na Plataforma Dadosfera, seguindo boas práticas de **governança de dados**, **Data Lake** e **Data Catalog**.
+Esta etapa tem como objetivo garantir a **governança e a descoberta dos dados**, por meio da catalogação completa dos ativos criados nas camadas BRONZE, SILVER e GOLD.
 
-O objetivo desta etapa é:
-- Garantir entendimento do domínio dos dados
-- Facilitar o reuso por diferentes áreas
-- Assegurar governança, rastreabilidade e qualidade
-- Preparar os dados para análises e uso por IA
-
----
-
-## 2. Organização dos Dados no Data Lake
-
-Os dados foram organizados conforme um **modelo lógico de Data Lake**, amplamente adotado em arquiteturas modernas e compatível com a abordagem da Dadosfera.
-
-### 2.1 Zonas do Data Lake
-
-| Zona | Descrição | Objetivo |
-|---|---|---|
-| RAW (Bronze) | Dados brutos, sem transformação | Preservar a origem |
-| STAGING (Silver) | Dados tratados e padronizados | Qualidade e consistência |
-| CURATED (Gold) | Dados analíticos e modelados | Consumo por BI e IA |
+A catalogação permite que os dados sejam:
+- Facilmente encontrados
+- Compreendidos por outros usuários
+- Utilizados com segurança em análises e relatórios
 
 ---
 
-### 2.2 Zona RAW (Bronze)
+## 2. Ferramenta de Catalogação
 
-Nesta zona encontram-se os dados **exatamente como foram ingeridos**, sem alterações estruturais ou semânticas.
+A catalogação foi realizada utilizando o **Catálogo de Dados da plataforma Dadosfera**, onde cada tabela criada no projeto foi registrada como um ativo de dados.
 
-**CAMADA BRONZE(RAW)**
-- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_ORDERS
-- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_ORDER_ITEMS
-- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_CUSTOMERS
-- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_PRODUCTS
-- SERGIO_MIRANDA_DDF_TECH_BRONZE_OLIST_SELLERS
-
-
-
-**Exemplos de datasets:**
-- `olist_orders_raw`
-- `olist_order_items_raw`
-- `olist_products_raw`
-- `product_catalog_json_raw`
-
-**Características:**
-- Formato original (CSV / JSON)
-- Sem tipagem forçada
-- Sem deduplicação
-- Referência histórica e auditoria
+Para cada ativo, foram definidos:
+- Descrição do dataset
+- Owner (responsável)
+- Tags
+- Documentação das colunas (dicionário de dados)
+- Evidências visuais
 
 ---
 
-### 2.3 Zona STAGING (Silver)
+## 3. Organização por Camadas
 
-A zona STAGING contém dados **limpos, padronizados e validados**, prontos para uso analítico.
+### 3.1 Camada BRONZE
 
+A camada BRONZE contém dados brutos, estruturados, sem aplicação de regras de negócio.
 
+**Tabelas catalogadas:**
+- DDF_TECH_BRONZE_OLIST_CUSTOMERS  
+- DDF_TECH_BRONZE_OLIST_ORDERS  
+- DDF_TECH_BRONZE_OLIST_ORDER_ITEMS  
+- DDF_TECH_BRONZE_OLIST_PRODUCTS  
+- DDF_TECH_BRONZE_OLIST_SELLERS  
 
-**Transformações aplicadas:**
-- Padronização de nomes de colunas
-- Conversão de tipos (datas, números)
-- Normalização de status
-- Remoção de duplicidades
-- Criação de chaves técnicas
-- Tratamento de valores nulos
-
-**Camada Silver**
-SERGIO_MIRANDA_DDF_TECH_SILVER_OLIST
-
-***Dentro do SERGIO_MIRANDA_DDF_TECH_SILVER_OLIST temos as tabelas***
-
-- PUBLIC.SILVER__CUSTOMERS
-- PUBLIC.SILVER__ORDERS
-- PUBLIC.SILVER__ORDER_ITEMS
-- PUBLIC.SILVER__PRODUCTS
-- PUBLIC.SILVER__SELLERS
-
-**Exemplos de datasets:**
-- `olist_orders_stg`
-- `olist_order_items_stg`
-- `olist_products_stg`
-- `product_catalog_stg`
-
----
-
-### 2.4 Zona CURATED (Gold)
-
-A zona CURATED concentra os **datasets finais**, otimizados para consumo por ferramentas de BI, pipelines de IA e Data Apps.
-
-**Características:**
-- Granularidade bem definida
-- Regras de negócio aplicadas
-- Métricas consolidadas
-- Relacionamentos claros
-  
-**SERGIO_MIRANDA_DDF_TECH_GOLD_OLIST**
-
-- PUBLIC.GOLD__DIM_CUSTOMER
-- PUBLIC.GOLD__DIM_DATE
-- PUBLIC.GOLD__DIM_PRODUCT
-- PUBLIC.GOLD__DIM_SELLER
-- PUBLIC.GOLD__FACT_SALES
-- PUBLIC.GOLD__SELLERS_POR_ESTADO
-
-**Exemplos de datasets:**
-- `fact_sales`
-- `fact_delivery`
-- `dim_product`
-- `dim_customer`
-- `dim_seller`
-- `dim_date`
-- `product_features_llm`
-
----
-
-## 3. Processo de Catalogação na Dadosfera
-
-Após a ingestão e organização, todos os datasets foram **catalogados na Dadosfera**, utilizando o módulo de **Exploração e Catálogo**.
-
-### 3.1 Metadados Documentados
-
-Para cada dataset, foram registrados os seguintes metadados:
-
-- Nome do dataset
-- Descrição funcional
-- Domínio de negócio
+Para cada tabela foram documentados:
 - Granularidade
-- Zona do Data Lake
-- Responsável pelo dado
-- Data de atualização
-- Sensibilidade do dado
-
-Esse processo facilita a descoberta e o uso dos dados por diferentes áreas da empresa.
+- Origem
+- Descrição das principais colunas
+- Relacionamentos esperados
 
 ---
 
-### 3.2 Dicionário de Dados
+### 3.2 Camada SILVER
 
-Foi construído um **Dicionário de Dados**, documentando os principais campos de cada tabela.
+A camada SILVER contém dados tratados e padronizados, prontos para consumo analítico intermediário.
 
-#### Exemplo – `fact_sales`
+**Tabelas catalogadas:**
+- SILVER_CUSTOMERS  
+- SILVER_ORDERS  
+- SILVER_ORDER_ITEMS  
+- SILVER_PRODUCTS  
+- SILVER_SELLERS  
 
-| Campo | Tipo | Descrição |
-|---|---|---|
-| order_id | string | Identificador do pedido |
-| product_id | string | Identificador do produto |
-| seller_id | string | Identificador do seller |
-| customer_id | string | Identificador do cliente |
-| order_date | date | Data do pedido |
-| price | numeric | Valor do produto |
-| freight_value | numeric | Valor do frete |
-| quantity | integer | Quantidade vendida |
-
----
-
-## 4. Exploração dos Dados (Análise Inicial)
-
-A etapa de exploração teve como objetivo **validar a consistência dos dados** e **identificar padrões relevantes** antes das análises finais.
-
-### 4.1 Análises Realizadas
-
-- Distribuição temporal de pedidos
-- Volume de vendas por categoria
-- Frequência de atrasos logísticos
-- Distribuição de avaliações (reviews)
-- Volume de produtos por categoria
-
-Essas análises permitiram identificar:
-- Sazonalidades
-- Categorias mais relevantes
-- Gargalos logísticos
-- Outliers e inconsistências
+Nesta camada, a catalogação enfatiza:
+- Regras de tratamento aplicadas
+- Campos técnicos de controle
+- Prontidão para modelagem dimensional
 
 ---
 
-### 4.2 Validação de Relacionamentos
+### 3.3 Camada GOLD
 
-Foram validados os principais relacionamentos entre datasets, como:
-- Orders ↔ Order Items
-- Products ↔ Order Items
-- Products ↔ Product Features (LLM)
-- Customers ↔ Orders
-- Sellers ↔ Orders
+A camada GOLD contém os dados finais para análise, seguindo modelo dimensional e data marts.
 
-Essa validação garantiu a integridade dos dados antes da modelagem dimensional.
+**Tabelas catalogadas:**
+- GOLD_DIM_CUSTOMER  
+- GOLD_DIM_PRODUCT  
+- GOLD_DIM_SELLER  
+- GOLD_DIM_DATE  
+- GOLD_FACT_SALES  
+- GOLD_SELLERS_POR_ESTADO  
 
----
-
-## 5. Boas Práticas de Governança Aplicadas
-
-Durante a catalogação e exploração, foram adotadas as seguintes boas práticas:
-
-- Separação clara por zonas do Data Lake
-- Documentação acessível e padronizada
-- Uso de nomes descritivos
-- Definição de ownership dos dados
-- Preparação para controle de qualidade contínuo
-
-Essas práticas são fundamentais para escalar a plataforma de dados ao longo do tempo.
+Nesta camada, a catalogação foca em:
+- Papel da tabela no modelo analítico
+- Granularidade (grão)
+- Métricas e dimensões
+- Relacionamentos com outras tabelas
 
 ---
 
-## 6. Benefícios para o Negócio
+## 4. Documentação dos Ativos
 
-A correta catalogação e exploração dos dados proporciona:
+Para cada tabela, foram registrados no catálogo:
+- Descrição detalhada do dataset
+- Dicionário de dados com explicação das colunas
+- Tags temáticas (ex.: olist, ecommerce, bronze, silver, gold)
+- Owner do ativo
 
-- Redução do tempo de descoberta de dados
-- Maior confiança nos dados utilizados
-- Facilidade de integração entre áreas
-- Base sólida para análises avançadas e IA
-- Governança desde a ingestão até o consumo
+Quando a plataforma não permitiu a edição individual de colunas, a documentação foi complementada neste repositório.
 
 ---
 
-## 7. Considerações Finais
+## 5. Evidências
 
-A etapa de **Catalogação e Exploração** consolida a base de dados do projeto, garantindo que os ativos criados na Dadosfera sejam **compreensíveis, reutilizáveis e governáveis**.
+Como evidência da catalogação, foram coletados:
+- Prints da listagem de tabelas por camada
+- Prints das páginas de documentação dos ativos
+- Exemplos de tabelas com descrição e colunas documentadas
 
-Essa fase é essencial para sustentar as próximas etapas do ciclo de vida dos dados, como **Data Quality**, **Modelagem**, **Análise** e **Data Apps**, reforçando a Dadosfera como uma plataforma central de dados corporativos.
+Essas evidências estão armazenadas neste repositório para fins de auditoria e avaliação do projeto.
 
+---
+
+## 6. Benefícios da Catalogação
+
+A catalogação dos dados permite:
+- Redução de ambiguidades
+- Maior reutilização dos dados
+- Facilidade de onboarding de novos usuários
+- Aumento da confiança nos dados
+
+---
+
+## 7. Conclusão
+
+A etapa de catalogação e exploração garante que os dados produzidos no projeto sejam governáveis, compreensíveis e prontos para uso analítico, alinhando-se às melhores práticas de Data Governance.
