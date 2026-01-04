@@ -89,3 +89,25 @@ WHERE order_id IS NULL;
 SELECT *
 FROM silver_orders
 WHERE order_delivered_customer_date < order_approved_at;
+````
+6. Resultados da Qualidade de Dados
+
+A maior parte das inconsistências encontradas está relacionada a pedidos cancelados
+
+O dataset apresentou boa qualidade geral
+
+Nenhuma inconsistência crítica que inviabilizasse o uso analítico foi identificada
+
+7. Benefícios da Aplicação de Data Quality
+
+Maior confiança nos dados analíticos
+
+Redução de erros em relatórios e dashboards
+
+Base sólida para modelagem dimensional
+
+Facilidade de auditoria e rastreabilidade
+
+8. Conclusão
+
+A aplicação de regras de qualidade de dados garantiu que os dados avançassem no pipeline com confiabilidade e consistência, refletindo boas práticas utilizadas em ambientes corporativos.
