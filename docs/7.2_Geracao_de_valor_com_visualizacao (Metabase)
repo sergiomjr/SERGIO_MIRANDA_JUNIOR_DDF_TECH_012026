@@ -1,1 +1,143 @@
+# 7. Análise de Dados (Visualização / Metabase)
+
+## Objetivo
+
+Criar um dashboard no módulo de Visualização (Metabase) com:
+- Análise de categorias (ex.: vendas por categoria)
+- Análise de série temporal (ex.: vendas por mês)
+- Pelo menos 5 visualizações/questões, usando 5 tipos diferentes de gráfico
+
+Além disso, salvar as queries SQL utilizadas e inserir prints do resultado das queries neste documento.
+
+## Como encontrar a tabela no módulo de Visualização
+
+No módulo de Visualização, buscar a tabela pelo ID (identificador) exibido no Catálogo da Dadosfera.
+
+---
+
+## Dashboard criado: "Olist – Vendas (Categorias + Série Temporal)"
+
+A seguir estão as questões (cards) do dashboard, cada uma com a SQL, o tipo de visualização recomendado, e um campo para anexar o print do resultado da query.
+
+**Observação:** as queries assumem o modelo Star Schema na camada Gold:
+- `GOLD__FACT_SALES`
+- `GOLD__DIM_PRODUCT`
+- `GOLD__DIM_DATE`
+- `GOLD__DIM_SELLER`
+- `GOLD__SELLERS_POR_ESTADO`
+
+---
+
+### 1) KPI — Receita Total (R$)
+
+**Tipo de visualização:** Number (KPI)
+```sql
+SELECT
+  ROUND(SUM(total_item_value)::numeric, 2) AS receita_total
+FROM public."GOLD__FACT_SALES";
+```
+
+📸 **Print do resultado da query:** _(colar aqui)_
+
+---
+
+### 2) Bar Chart — Top 10 Categorias por Receita
+
+**Tipo de visualização:** Bar chart
+```sql
+SELECT
+  p.category_name AS categoria,
+  ROUND(SUM(f.total_item_value)::numeric, 2) AS receita
+FROM public."GOLD__FACT_SALES" f
+JOIN public."GOLD__DIM_PRODUCT" p
+  ON p.product_id = f.product_id
+GROUP BY 1
+ORDER BY receita DESC
+LIMIT 10;
+```
+
+📸 **Print do resultado da query:** _(colar aqui)_
+
+---
+
+### 3) Line Chart — Receita Mensal (Série Temporal)
+
+**Tipo de visualização:** Line chart
+```sql
+SELECT
+  DATE_TRUNC('month', d.date_key)::date AS mes,
+  ROUND(SUM(f.total_item_value)::numeric, 2) AS receita
+FROM public."GOLD__FACT_SALES" f
+JOIN public."GOLD__DIM_DATE" d
+  ON d.date_key = f.date_key
+GROUP BY 1
+ORDER BY 1;
+```
+
+📸 **Print do resultado da query:** _(colar aqui)_
+
+---
+
+### 4) Stacked Bar — Status do Pedido ao Longo do Tempo (Mensal)
+
+**Tipo de visualização:** Stacked bar chart
+```sql
+SELECT
+  DATE_TRUNC('month', d.date_key)::date AS mes,
+  f.order_status,
+  COUNT(DISTINCT f.order_id) AS qtd_pedidos
+FROM public."GOLD__FACT_SALES" f
+JOIN public."GOLD__DIM_DATE" d
+  ON d.date_key = f.date_key
+GROUP BY 1, 2
+ORDER BY 1, 2;
+```
+
+📸 **Print do resultado da query:** _(colar aqui)_
+
+---
+
+### 5) Map — Quantidade de Sellers por Estado
+
+**Tipo de visualização:** Map (ou Bar, se map não estiver habilitado)
+```sql
+SELECT
+  seller_state,
+  qtd_sellers
+FROM public."GOLD__SELLERS_POR_ESTADO"
+ORDER BY qtd_sellers DESC;
+```
+
+📸 **Print do resultado da query:** _(colar aqui)_
+
+---
+
+### 6) Table — Top 10 Sellers por Receita
+
+**Tipo de visualização:** Table (extra, fortalece o storytelling)
+```sql
+SELECT
+  s.seller_state,
+  s.seller_city,
+  f.seller_id,
+  ROUND(SUM(f.total_item_value)::numeric, 2) AS receita
+FROM public."GOLD__FACT_SALES" f
+JOIN public."GOLD__DIM_SELLER" s
+  ON s.seller_id = f.seller_id
+GROUP BY 1, 2, 3
+ORDER BY receita DESC
+LIMIT 10;
+```
+
+📸 **Print do resultado da query:** _(colar aqui)_
+
+---
+
+## Insights (resumo do que o dashboard mostra)
+
+- **Categorias líderes:** identifica as categorias com maior receita e concentração do faturamento (Top 10).
+- **Tendência temporal:** receita mensal mostra sazonalidade e períodos de pico/queda.
+- **Qualidade operacional:** distribuição de `order_status` por mês ajuda a entender saúde do processo (ex.: entregas vs cancelamentos).
+- **Distribuição geográfica:** sellers por estado mostra concentração regional da oferta.
+- **Top sellers:** evidencia vendedores com maior impacto na receita.
 
