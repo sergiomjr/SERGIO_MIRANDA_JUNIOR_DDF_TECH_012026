@@ -1,185 +1,90 @@
-# 🗃️ Base de Dados do Case
+# Base de Dados Utilizada
 
-## 1. Introdução
+## 1. Visão Geral do Dataset
 
-Este documento descreve as **bases de dados utilizadas neste case técnico**, alinhadas ao cenário proposto de uma **grande empresa de e-commerce** que busca construir uma **Plataforma de Dados centralizada**, com foco em **análises descritivas, prescritivas e uso de Inteligência Artificial**.
+A base de dados utilizada neste projeto é o **Brazilian E-Commerce Public Dataset by Olist**, disponível publicamente na plataforma Kaggle.
 
-A escolha das bases foi orientada por três critérios principais:
-- Aderência ao domínio de e-commerce
-- Volume mínimo exigido (**≥ 100.000 registros**)
-- Capacidade de sustentar análises analíticas e de IA ponta a ponta
-
----
-
-## 2. Visão Geral das Bases Utilizadas
-
-O case utiliza **duas bases principais**, complementares entre si:
-
-| Tipo | Base | Finalidade |
-|---|---|---|
-| Transacional (estruturada) | Olist E-commerce Dataset | Análises operacionais, comerciais e logísticas |
-| Desestruturada (texto) | Catálogo de Produtos Sintético (JSON) | Feature engineering com GenAI |
-
-Essa abordagem reflete um cenário real de e-commerce, onde dados transacionais convivem com grandes volumes de dados textuais de anúncios e descrições de produtos.
-
----
-
-## 3. Base Transacional – Olist E-commerce Dataset
-
-### 3.1 Descrição Geral
-
-A base transacional utilizada é o **Brazilian E-Commerce Public Dataset by Olist**, amplamente utilizado em estudos de dados e analytics.
-
-Ela representa transações reais de um marketplace brasileiro, contendo informações sobre:
-- Pedidos
-- Itens vendidos
-- Produtos
+Este dataset representa transações reais de um marketplace brasileiro, contendo informações sobre:
 - Clientes
-- Sellers
-- Pagamentos
-- Avaliações
-- Geolocalização
+- Vendedores
+- Pedidos
+- Itens de pedidos
+- Produtos
+- Datas e status logísticos
 
-### 3.2 Volume de Dados
-
-A base contém **centenas de milhares de registros**, distribuídos em múltiplas tabelas, atendendo integralmente o requisito mínimo do case.
-
-Exemplos de volume:
-- `orders`: ~100.000 registros
-- `order_items`: ~110.000 registros
-- `order_payments`: ~100.000 registros
-- `order_reviews`: ~100.000 registros
+Fonte oficial:
+https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
 
 ---
 
-### 3.3 Principais Tabelas Utilizadas
+## 2. Contexto de Negócio
 
-| Tabela | Descrição |
-|---|---|
-| `orders` | Informações gerais dos pedidos |
-| `order_items` | Detalhes dos itens vendidos |
-| `products` | Cadastro de produtos |
-| `customers` | Dados dos clientes |
-| `sellers` | Dados dos vendedores |
-| `order_payments` | Formas e valores de pagamento |
-| `order_reviews` | Avaliações dos clientes |
-| `geolocation` | Dados geográficos |
+A Olist conecta pequenos e médios lojistas a grandes marketplaces, atuando como intermediária entre vendedores e consumidores finais.
 
----
+Os dados refletem todo o ciclo de compra:
+- Cadastro do cliente
+- Realização do pedido
+- Aprovação do pagamento
+- Logística e entrega
+- Avaliação e status final do pedido
 
-### 3.4 Casos de Uso Atendidos
-
-A base Olist permite análises como:
-- Evolução temporal de pedidos e receita
-- Análise de categorias de produtos
-- Performance de sellers
-- Análise de SLA e atraso logístico
-- Avaliação da experiência do cliente (reviews)
+Esse contexto permite análises como:
+- Volume de vendas por período
+- Distribuição geográfica de clientes e vendedores
+- Performance logística
+- Análise de faturamento e frete
 
 ---
 
-## 4. Base Desestruturada – Catálogo de Produtos Sintético
+## 3. Estrutura dos Dados Originais
 
-### 4.1 Motivação
+Os dados são disponibilizados em formato **CSV**, com tabelas normalizadas, entre as principais:
 
-Embora a base Olist contenha informações de produtos, ela **não possui descrições textuais ricas em grande volume**, comuns em plataformas de e-commerce modernas.
+| Tabela               | Descrição                                      |
+|----------------------|-----------------------------------------------|
+| customers            | Dados cadastrais dos clientes                 |
+| sellers              | Dados cadastrais dos vendedores               |
+| orders               | Informações gerais dos pedidos                |
+| order_items          | Detalhes dos itens vendidos por pedido        |
+| products             | Informações dos produtos                      |
+| product_category     | Tradução das categorias de produtos           |
 
-Para atender ao **Item 5 – Processar (GenAI & LLMs)**, foi criada uma **base desestruturada sintética**, simulando um **catálogo real de produtos** com títulos e descrições extensas.
+---
+
+## 4. Características dos Dados
+
+- Dados reais anonimizados
+- Volume aproximado de:
+  - ~100 mil pedidos
+  - ~100 mil clientes
+  - ~3 mil vendedores
+  - ~33 mil produtos
+- Período coberto: **2016 a 2018**
+- Presença de dados faltantes e inconsistências reais de produção
 
 ---
 
-### 4.2 Estrutura do Dataset
+## 5. Justificativa da Escolha do Dataset
 
-O catálogo foi gerado no formato **JSON**, com a seguinte estrutura:
-
-```json
-{
-  "product_id": "string",
-  "title": "string",
-  "description": "string"
-}
-````
-## 4.3 Geração dos Dados Sintéticos
-
-A geração do catálogo foi realizada via script em Python, disponível em:
-
-/synthetic_data/generate_product_catalog.py
-
-
-Características do processo:
-
-Uso das categorias reais do Olist como base
-
-Variação de atributos por categoria
-
-Textos longos e semiestruturados
-
-Volume final: 100.000+ registros
-
-Esse processo garante realismo sem comprometer privacidade ou dados sensíveis.
-
-## 4.4 Casos de Uso Atendidos
-
-A base desestruturada possibilita:
-
-Extração de atributos via LLM
-
-Classificação automática de produtos
-
-Similaridade entre produtos
-
-Enriquecimento do catálogo
-
-Apoio a mecanismos de recomendação
-
-## 5. Relacionamento entre as Bases
-
-O relacionamento entre as bases ocorre por meio do campo:
-
-product_id
-
-
-Esse identificador permite:
-
-Associar features extraídas por IA aos dados transacionais
-
-Análises combinadas entre vendas e atributos de produto
-
-Uso das features em BI e Data Apps
-
-## 6. Justificativa da Escolha das Bases
-
-A combinação de:
-
-Dados transacionais reais
-
-Dados desestruturados sintéticos em larga escala
-
-permite demonstrar, de forma prática:
-
-Integração de múltiplas fontes
-
-Governança e qualidade de dados
-
-Processamento de texto com GenAI
-
-Modelagem analítica
-
-Geração de valor para o negócio
-
-Essa abordagem reflete um cenário realista e escalável, alinhado aos desafios enfrentados por grandes empresas de e-commerce.
-
-## 7. Considerações Finais
-
-As bases selecionadas atendem integralmente os requisitos do case técnico da Dadosfera e fornecem uma base sólida para:
-
-Análises descritivas e prescritivas
-
-Desenvolvimento de modelos de IA
-
-Criação de dashboards e Data Apps
-
-Demonstração do ciclo de vida completo dos dados
-
+A escolha deste dataset se deve a:
+- Alta aderência a cenários reais de negócio
+- Complexidade adequada para avaliação técnica
+- Diversidade de entidades (clientes, produtos, vendas, tempo)
+- Possibilidade de modelagem dimensional
+- Excelente base para análise exploratória e indicadores
 
 ---
+
+## 6. Considerações sobre Governança
+
+Apesar de ser um dataset público, o projeto trata os dados com boas práticas de governança, incluindo:
+- Padronização de nomes
+- Controle de qualidade
+- Catalogação dos ativos
+- Documentação técnica detalhada
+
+---
+
+## 7. Conclusão
+
+O dataset Olist fornece uma base sólida para construção de pipelines de dados completos, permitindo demonstrar competências técnicas em engenharia, governança e análise de dados.
