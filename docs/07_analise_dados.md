@@ -1,197 +1,118 @@
-# 📊 Análise de Dados e Visualização
+# Análise de Dados
 
-## 1. Introdução
+## 1. Objetivo da Etapa
 
-Nesta etapa do projeto, os dados já integrados, catalogados, validados e modelados foram utilizados para **gerar valor analítico ao negócio**, por meio da criação de **dashboards e análises exploratórias** utilizando o módulo de **Visualização da Dadosfera (Metabase)**.
+Esta etapa tem como objetivo realizar **análises exploratórias e analíticas** a partir dos dados modelados na **camada GOLD**, transformando dados em **informação e insights de negócio**.
 
-O foco desta fase é demonstrar como a Plataforma de Dados permite:
-- Análises descritivas
-- Identificação de padrões
-- Apoio à tomada de decisão
-- Monitoramento de indicadores-chave do e-commerce
+As análises foram conduzidas com base na **FACT_SALES** e suas dimensões associadas, utilizando consultas SQL e agregações analíticas.
 
 ---
 
-## 2. Objetivos da Análise
+## 2. Fonte dos Dados Analíticos
 
-Os principais objetivos das análises desenvolvidas foram:
-- Entender o comportamento de vendas ao longo do tempo
-- Avaliar a performance das categorias de produtos
-- Identificar gargalos logísticos
-- Monitorar a experiência do cliente
-- Disponibilizar informações de forma clara e acessível
+As análises utilizam as seguintes tabelas da camada GOLD:
 
----
+- GOLD_FACT_SALES
+- GOLD_DIM_CUSTOMER
+- GOLD_DIM_PRODUCT
+- GOLD_DIM_SELLER
+- GOLD_DIM_DATE
+- GOLD_SELLERS_POR_ESTADO
 
-## 3. Coleção de Dashboards
-
-Foi criada uma **Coleção no módulo de Visualização da Dadosfera** com o seguinte padrão de nomenclatura:
-
-Sérgio Miranda Junior - 01_2026
-
-
-Essa coleção centraliza todos os dashboards e consultas SQL criados neste projeto.
+Essas tabelas estão estruturadas em modelo dimensional (Star Schema), otimizadas para consultas analíticas.
 
 ---
 
-## 4. Visualizações Criadas
+## 3. Indicadores e Análises Realizadas
 
-Foram desenvolvidas **5 visualizações**, utilizando **5 tipos diferentes de gráficos**, conforme exigido no case.
+### 3.1 Volume de Vendas ao Longo do Tempo
 
----
+Análise da evolução do volume de vendas por período (ano e mês), permitindo identificar tendências e sazonalidade.
 
-### 4.1 Evolução de Vendas no Tempo (Série Temporal)
-
-**Tipo de visualização:** Linha  
-
-**Objetivo:**  
-Analisar a evolução do volume de vendas e da receita ao longo do tempo.
-
-**Métricas:**
-- Quantidade de pedidos
-- Receita total
-
-**Dimensão temporal:** Mês / Ano
-
-**Insights esperados:**
-- Sazonalidade
-- Crescimento ou queda de vendas
-- Impacto de períodos específicos (datas comemorativas)
-
----
-
-### 4.2 Receita por Categoria de Produto
-
-**Tipo de visualização:** Barras  
-
-**Objetivo:**  
-Identificar as categorias com maior contribuição de receita.
-
-**Métricas:**
-- Receita total
-- Ticket médio
-
-**Insights esperados:**
-- Categorias estratégicas
-- Possibilidades de foco comercial
-- Comparação entre volume e valor
-
----
-
-### 4.3 Distribuição Geográfica de Entregas
-
-**Tipo de visualização:** Mapa  
-
-**Objetivo:**  
-Visualizar a distribuição de pedidos e atrasos por região.
-
-**Métricas:**
-- Quantidade de pedidos
-- Percentual de atrasos
-
-**Dimensões:**
-- Estado (UF)
-- Cidade
-
-**Insights esperados:**
-- Regiões com maior demanda
-- Regiões com gargalos logísticos
-
----
-
-### 4.4 Funil de Status dos Pedidos
-
-**Tipo de visualização:** Funil / Pizza  
-
-**Objetivo:**  
-Analisar a conversão dos pedidos ao longo do seu ciclo de vida.
-
-**Status analisados:**
-- Criado
-- Aprovado
-- Enviado
-- Entregue
-- Cancelado
-
-**Insights esperados:**
-- Perdas no processo
-- Eficiência operacional
-- Taxa de cancelamento
-
----
-
-### 4.5 Atraso Logístico por Categoria
-
-**Tipo de visualização:** Heatmap  
-
-**Objetivo:**  
-Identificar categorias com maior incidência de atrasos.
-
-**Métricas:**
-- Média de dias de atraso
-- Percentual de pedidos atrasados
-
-**Insights esperados:**
-- Correlação entre tipo de produto e atraso
-- Oportunidades de melhoria logística
-
----
-
-## 5. Consultas SQL Utilizadas
-
-As análises foram construídas utilizando **consultas SQL** sobre as tabelas modeladas (fatos e dimensões).
-
-### Exemplo – Receita por Categoria
+Exemplo de métrica:
+- Quantidade de itens vendidos
+- Valor total de vendas
 
 ```sql
 SELECT
-  p.category_name,
-  SUM(f.revenue) AS total_revenue
-FROM fact_sales f
-JOIN dim_product p
-  ON f.product_id = p.product_id
-GROUP BY p.category_name
-ORDER BY total_revenue DESC;
-```
+  d.year,
+  d.month,
+  COUNT(*) AS qtd_itens_vendidos,
+  SUM(f.total_item_value) AS valor_total_vendas
+FROM gold_fact_sales f
+JOIN gold_dim_date d
+  ON f.date_key = d.date_key
+GROUP BY d.year, d.month
+ORDER BY d.year, d.month;
+````
+3.2 Análise de Vendas por Estado do Cliente
 
-## 6. Boas Práticas Aplicadas
+Avaliação da distribuição das vendas por estado, identificando regiões com maior participação no faturamento.
 
-Durante a criação das análises, foram adotadas as seguintes boas práticas:
+Métricas analisadas:
 
-Uso de tabelas modeladas (DW)
+Quantidade de vendas
 
-Métricas claramente definidas
+Valor total vendido
 
-Visualizações adequadas ao tipo de dado
+3.3 Performance de Vendedores
 
-Padronização de nomenclatura
+Análise de performance dos vendedores, considerando:
 
-Foco em clareza e interpretação
+Quantidade de itens vendidos
 
-## 7. Bônus – Alertas e Notificações
+Receita total gerada
 
-Como recurso adicional, foram exploradas funcionalidades de alertas do Metabase, como:
+Distribuição geográfica
 
-Notificação de aumento de atrasos logísticos
+Essa análise permite identificar sellers com maior impacto no negócio.
 
-Queda significativa de receita em determinado período
+3.4 Análise por Categoria de Produto
 
-Esses alertas reforçam o uso da plataforma como ferramenta ativa de gestão.
+Avaliação das categorias de produtos mais vendidas, considerando:
 
-## 8. Benefícios para o Negócio
+Volume de vendas
 
-As análises desenvolvidas permitem:
+Faturamento
 
-Monitoramento contínuo de KPIs
+Participação percentual no total
 
-Identificação rápida de problemas
+3.5 Distribuição Geográfica de Sellers
 
-Apoio a decisões comerciais e operacionais
+Utilização da tabela GOLD_SELLERS_POR_ESTADO para analisar a concentração de vendedores por UF, facilitando análises regionais e visualizações em mapas.
 
-Democratização do acesso à informação
+4. Principais Insights
 
-## 9. Considerações Finais
+O volume de vendas apresenta variação significativa ao longo do tempo, indicando sazonalidade.
 
-A etapa de Análise de Dados demonstra como a Plataforma Dadosfera viabiliza a transformação de dados em insights acionáveis, integrando modelagem, qualidade e visualização em um único ecossistema.
+Estados com maior concentração de clientes tendem a gerar maior faturamento.
 
-Essas análises servem como base para decisões estratégicas, melhorias operacionais e evolução para análises prescritivas e aplicações de IA.
+Um subconjunto reduzido de vendedores concentra grande parte das vendas.
+
+Determinadas categorias de produtos possuem maior representatividade no faturamento total.
+
+5. Possíveis Visualizações
+
+As análises realizadas permitem a criação de visualizações como:
+
+Séries temporais de vendas
+
+Mapas geográficos por estado
+
+Rankings de vendedores e produtos
+
+Dashboards executivos de performance
+
+Essas visualizações podem ser consumidas em ferramentas de BI como Power BI, Tableau ou similares.
+
+6. Limitações
+
+O dataset é histórico e não reflete dados em tempo real.
+
+Algumas análises podem ser impactadas por dados faltantes esperados (ex.: pedidos cancelados).
+
+Não foram aplicados modelos preditivos.
+
+7. Conclusão
+
+A etapa de análise de dados demonstra como uma arquitetura bem estruturada permite gerar insights relevantes de negócio, reforçando a importância da modelagem dimensional e da qualidade dos dados para análises confiáveis.
