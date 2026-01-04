@@ -56,8 +56,10 @@ Mesmo na camada Raw, algumas padronizações mínimas são realizadas:
 
 - **Dadosfera**: orquestração, ingestão e catalogação
 - **Amazon S3**: armazenamento da camada Bronze
+- https://us-east-2.console.aws.amazon.com/s3/buckets/case-ddf-tech-olist-sergio-miranda?region=us-east-2&tab=objects
 - **PostgreSQL**: persistência das camadas Silver e Gold
 - **SQL**: manipulação e transformação dos dados
+<img width="1776" height="696" alt="image" src="https://github.com/user-attachments/assets/0e7f2ab9-5011-44b1-b2c7-2bf6995cef9c" />
 
 ---
 
