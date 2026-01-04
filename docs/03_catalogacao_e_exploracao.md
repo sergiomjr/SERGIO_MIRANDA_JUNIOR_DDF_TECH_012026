@@ -30,6 +30,24 @@ Os dados foram organizados conforme um **modelo lógico de Data Lake**, amplamen
 
 Nesta zona encontram-se os dados **exatamente como foram ingeridos**, sem alterações estruturais ou semânticas.
 
+**CAMADA BRONZE(RAW)**
+DDF_TECH_BRONZE_OLIST_ORDERS
+DDF_TECH_BRONZE_OLIST_ORDER_ITEMS
+DDF_TECH_BRONZE_OLIST_CUSTOMERS
+DDF_TECH_BRONZE_OLIST_PRODUCTS
+DDF_TECH_BRONZE_OLIST_SELLERS
+
+**Camada Silver**
+DDF_TECH_SILVER_OLIST
+
+***Dentro do DDF_TECH_SILVER_OLIST temos as tabelas***
+
+PUBLIC.SILVER__CUSTOMERS
+PUBLIC.SILVER__ORDERS
+PUBLIC.SILVER__ORDER_ITEMS
+PUBLIC.SILVER__PRODUCTS
+PUBLIC.SILVER__SELLERS
+
 **Exemplos de datasets:**
 - `olist_orders_raw`
 - `olist_order_items_raw`
