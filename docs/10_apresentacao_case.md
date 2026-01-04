@@ -1,139 +1,127 @@
-# 🎥 Apresentação do Case – Plataforma de Dados com Dadosfera
+# Apresentação do Case
 
-## 1. Introdução
+## 1. Visão Geral
 
-Este documento descreve a **apresentação final do case técnico**, cujo objetivo é demonstrar a **viabilidade técnica, econômica e estratégica** da utilização da **Plataforma Dadosfera** como base de uma nova **Plataforma de Dados corporativa** para uma grande empresa de e-commerce.
+Este projeto foi desenvolvido como parte do **Desafio Técnico da Dadosfera**, com o objetivo de demonstrar a construção de um **pipeline de dados completo (end-to-end)**, aplicando boas práticas de **Data Engineering, Data Governance e Analytics**.
 
-O case foi construído como uma **Prova de Conceito (PoC)**, cobrindo todo o ciclo de vida dos dados, desde a ingestão até a entrega de valor por meio de **BI, IA e Data Apps**.
-
----
-
-## 2. Principal Problema a Ser Resolvido
-
-A empresa de e-commerce enfrenta desafios comuns em ambientes de dados complexos:
-
-- Dados distribuídos em múltiplas fontes
-- Arquitetura fragmentada (ETL, DW, BI e ML desacoplados)
-- Alto custo operacional e de manutenção
-- Baixa agilidade para criação de análises e modelos
-- Pouca exploração de dados desestruturados (anúncios e descrições)
-
-Esses fatores resultam em **alto time-to-value** e dificuldades na tomada de decisão estratégica.
+O case simula um cenário real de dados corporativos, desde a ingestão de dados brutos até a geração de insights analíticos, utilizando uma arquitetura moderna e escalável.
 
 ---
 
-## 3. Arquitetura Atual (Cenário Tradicional)
+## 2. Problema de Negócio
 
-O cenário atual da empresa é composto por uma arquitetura tradicional, envolvendo:
+Empresas de e-commerce lidam diariamente com grandes volumes de dados transacionais, que precisam ser:
+- Organizados
+- Confiáveis
+- Governáveis
+- Prontos para análise
 
-- Bancos de dados transacionais
-- Ferramentas isoladas de ETL
-- Data Warehouse dedicado
-- Ferramentas externas de BI
-- Ambientes separados para ML e Data Apps
-
-Essa arquitetura apresenta:
-- Alta complexidade
-- Múltiplos pontos de falha
-- Custos elevados de infraestrutura e operação
-- Dificuldade de governança e rastreabilidade
+O desafio consiste em transformar dados brutos em **informações analíticas de valor**, permitindo análises de vendas, clientes, produtos, vendedores e desempenho logístico.
 
 ---
 
-## 4. Arquitetura Proposta com Dadosfera
+## 3. Solução Proposta
 
-A arquitetura proposta substitui **parcial ou totalmente** a solução atual, centralizando as capacidades na **Plataforma Dadosfera**.
+A solução desenvolvida consiste em um **Data Pipeline em camadas**, com separação clara de responsabilidades:
 
-### Componentes da Arquitetura com Dadosfera
+- **BRONZE**: ingestão de dados brutos
+- **SILVER**: tratamento, padronização e qualidade
+- **GOLD**: modelagem dimensional e data marts analíticos
 
-- **Coleta:** ingestão de dados estruturados e desestruturados
-- **Exploração & Catálogo:** governança e descoberta de dados
-- **Data Quality:** validação e confiabilidade
-- **Processamento:** pipelines e uso de GenAI
-- **Modelagem:** dados prontos para consumo
-- **Visualização:** dashboards e análises
-- **Data Apps:** aplicações analíticas e inteligentes
-
-Essa arquitetura reduz drasticamente a complexidade operacional.
+Toda a solução foi documentada e catalogada na plataforma Dadosfera, garantindo governança e rastreabilidade.
 
 ---
 
-## 5. Demonstração dos Ativos Criados
+## 4. Arquitetura do Projeto
 
-Durante a apresentação, são demonstrados os seguintes ativos:
+### 4.1 Camada BRONZE
+- Dados ingeridos diretamente dos arquivos CSV do Kaggle
+- Estrutura preservada, sem regras de negócio
+- Inclusão de colunas técnicas para controle
 
-### Dados e Governança
-- Datasets integrados e catalogados
-- Organização em zonas (RAW, STAGING, CURATED)
-- Dicionário de dados
-- Relatórios de Data Quality
+### 4.2 Camada SILVER
+- Padronização de tipos e valores
+- Aplicação de regras de qualidade de dados
+- Preparação para consumo analítico
 
-### Inteligência Artificial
-- Extração de features com LLM a partir de descrições de produtos
-- Enriquecimento da dimensão de produtos
-- Base para recomendações e similaridade
-
-### Análise e Visualização
-- Dashboards comerciais
-- Dashboards logísticos
-- Alertas e notificações
-
-### Data Apps
-- Aplicação em Streamlit para similaridade entre produtos
-- Exploração interativa dos dados
+### 4.3 Camada GOLD
+- Modelagem dimensional (Star Schema)
+- Criação de dimensões e tabela fato
+- Tabelas agregadas para análises específicas
 
 ---
 
-## 6. Benefícios Técnicos da Dadosfera
+## 5. Modelagem Dimensional
 
-A adoção da Dadosfera proporciona:
+A camada GOLD foi modelada seguindo o padrão **Kimball**, com:
 
-- Centralização de todo o ciclo de vida dos dados
-- Redução de dependência de múltiplas ferramentas
-- Governança nativa e rastreabilidade
-- Facilidade de integração com IA e LLMs
-- Maior produtividade das equipes de dados
+### Dimensões
+- DIM_CUSTOMER
+- DIM_PRODUCT
+- DIM_SELLER
+- DIM_DATE
 
----
+### Fato
+- FACT_SALES (nível de item de pedido)
 
-## 7. Benefícios Financeiros e Operacionais
-
-Do ponto de vista financeiro e operacional, a plataforma oferece:
-
-- Redução de custos com licenças e infraestrutura
-- Menor esforço de manutenção
-- Menor tempo de implementação de novos projetos
-- Escalabilidade sob demanda
-- Melhor aproveitamento dos dados existentes
+Essa modelagem permite análises flexíveis e performáticas.
 
 ---
 
-## 8. Oportunidades Futuras
+## 6. Governança e Qualidade de Dados
 
-A partir da plataforma construída neste case, a empresa pode evoluir para:
-
-- Modelos de recomendação de produtos
-- Previsão de demanda
-- Otimização de rotas logísticas
-- Personalização da experiência do cliente
-- Uso avançado de GenAI para criação de conteúdo de produtos
-
-A Dadosfera se torna o **alicerce para inovação contínua**.
+O projeto contempla práticas de governança, incluindo:
+- Catálogo de dados com descrições e dicionário
+- Definição de owners e tags
+- Regras de qualidade (completude, consistência, validade)
+- Evidências visuais da catalogação
 
 ---
 
-## 9. Roteiro do Vídeo de Apresentação
+## 7. Principais Análises e Insights
 
-### Estrutura Sugerida (5–10 minutos)
+A partir dos dados modelados, foi possível realizar análises como:
+- Evolução das vendas ao longo do tempo
+- Distribuição geográfica de clientes e vendedores
+- Performance de vendedores
+- Análise por categoria de produto
 
-1. Apresentação pessoal e contexto do projeto
-2. Problema do negócio
-3. Arquitetura atual vs. arquitetura com Dadosfera
-4. Demonstração dos ativos criados
-5. Benefícios técnicos e financeiros
-6. Oportunidades futuras
-7. Conclusão
+Essas análises demonstram como dados bem estruturados suportam decisões de negócio.
 
-📺 **Vídeo publicado como Unlisted no YouTube**  
-🔗 Link do vídeo:
+---
 
+## 8. Tecnologias Utilizadas
+
+- **Dadosfera**: ingestão, catalogação e governança
+- **SQL**: transformação e análise de dados
+- **Amazon S3**: armazenamento da camada Bronze
+- **PostgreSQL**: persistência das camadas Silver e Gold
+- **GitHub**: versionamento e documentação
+
+---
+
+## 9. Diferenciais do Projeto
+
+- Arquitetura em camadas bem definida
+- Catalogação completa dos dados
+- Aplicação prática de Data Quality
+- Modelagem dimensional correta
+- Documentação técnica detalhada
+- Foco em consumo analítico
+
+---
+
+## 10. Próximos Passos
+
+Em um cenário de produção, os próximos passos seriam:
+- Implementação de orquestração (ex.: Airflow)
+- Automatização de testes de qualidade
+- Criação de dashboards em BI
+- Monitoramento de pipelines
+- Evolução para dados near real-time
+
+---
+
+## 11. Conclusão
+
+Este case demonstra a capacidade de projetar e implementar uma solução de dados completa, alinhada às melhores práticas do mercado, entregando valor analítico a partir de dados brutos.
