@@ -1,4 +1,3 @@
-## SERGIO_MIRANDA_JUNIOR_DDF_TECH_012026 
 
 # 🚀 Data Pipeline End-to-End – Olist E-commerce (Dadosfera Case)
 
