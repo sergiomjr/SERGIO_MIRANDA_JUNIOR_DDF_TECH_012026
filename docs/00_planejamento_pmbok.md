@@ -1,169 +1,110 @@
-# 📋 Planejamento do Projeto – Abordagem PMBOK
+# Planejamento do Projeto – Abordagem PMBOK
 
-## 1. Visão Geral do Planejamento
+## 1. Visão Geral do Projeto
 
-Este documento descreve o **planejamento do projeto de implementação da Plataforma de Dados com a Dadosfera**, seguindo boas práticas do **PMBOK (Project Management Body of Knowledge)**.
+Este projeto foi desenvolvido como parte do **Desafio Técnico da Dadosfera**, com o objetivo de construir um **pipeline de dados completo (end-to-end)**, cobrindo desde a ingestão até a camada analítica final, utilizando boas práticas de **Data Engineering, Data Governance e Analytics**.
 
-O objetivo do planejamento é garantir:
-- Clareza de escopo
-- Entregas incrementais
-- Controle de riscos
-- Alocação eficiente de recursos
-- Previsibilidade de custos e prazos
-
-O projeto é estruturado como uma **Prova de Conceito (PoC)** com foco em geração rápida de valor para um grande e-commerce.
-
----
-
-## 2. Estrutura do Projeto (Fases PMBOK)
-
-### 2.1 Iniciação
-- Kickoff com stakeholders
-- Entendimento do problema de negócio
-- Definição de objetivos e KPIs
-- Escolha da base de dados (Olist + Catálogo Sintético)
-
-**Entregáveis:**
-- Escopo inicial
-- Definição do case técnico
-
----
-
-### 2.2 Planejamento
-- Definição da arquitetura de dados
-- Planejamento da ingestão e catalogação
-- Estratégia de Data Quality
-- Definição da modelagem de dados
-- Planejamento do uso de GenAI
-- Definição dos dashboards e Data App
-
-**Entregáveis:**
-- Arquitetura alvo
-- Plano de qualidade de dados
-- Backlog de atividades
-
----
-
-### 2.3 Execução
-- Ingestão dos dados na Dadosfera
-- Catalogação e exploração
-- Implementação de regras de qualidade
-- Feature engineering com LLM
+O projeto simula um cenário real de dados corporativos, adotando conceitos amplamente utilizados no mercado, como:
+- Arquitetura em camadas (BRONZE, SILVER e GOLD)
+- Catálogo de dados
+- Qualidade de dados
 - Modelagem dimensional
-- Criação de dashboards
-- Desenvolvimento do Data App
-
-**Entregáveis:**
-- Datasets catalogados
-- Relatórios de Data Quality
-- Features geradas por IA
-- Dashboards e Data App
+- Análise exploratória e geração de insights
 
 ---
 
-### 2.4 Monitoramento e Controle
-- Validação de dados e métricas
-- Monitoramento da qualidade
-- Ajustes de escopo e performance
-- Revisões técnicas
+## 2. Objetivos do Projeto
 
-**Entregáveis:**
-- Evidências (prints)
-- Ajustes documentados
+### 2.1 Objetivo Geral
+Construir um pipeline de dados estruturado e documentado, demonstrando domínio técnico em ingestão, transformação, catalogação, qualidade e análise de dados.
 
----
-
-### 2.5 Encerramento
-- Consolidação da documentação
-- Gravação do vídeo de apresentação
-- Revisão final do repositório GitHub
-
-**Entregáveis:**
-- Repositório final
-- Vídeo unlisted no YouTube
+### 2.2 Objetivos Específicos
+- Ingerir dados brutos (raw) provenientes do dataset Olist
+- Organizar os dados em camadas BRONZE, SILVER e GOLD
+- Catalogar todos os ativos de dados na plataforma Dadosfera
+- Aplicar regras de qualidade de dados
+- Modelar os dados em esquema dimensional (Star Schema)
+- Realizar análises exploratórias e gerar indicadores de negócio
+- Documentar todas as etapas do processo
 
 ---
 
-## 3. Cronograma de Alto Nível
+## 3. Escopo do Projeto
 
-| Fase | Atividades Principais | Duração Estimada |
-|---|---|---|
-| Iniciação | Kickoff e definição do escopo | 1 dia |
-| Planejamento | Arquitetura, backlog e DQ | 2 dias |
-| Execução | Ingestão, IA, BI, App | 5 dias |
-| Monitoramento | Validação e ajustes | 1 dia |
-| Encerramento | Documentação e vídeo | 1 dia |
+### 3.1 Dentro do Escopo
+- Ingestão de dados do dataset Olist (Kaggle)
+- Criação de tabelas nas camadas BRONZE, SILVER e GOLD
+- Catalogação dos datasets
+- Aplicação de regras de Data Quality
+- Modelagem dimensional (Dimensões e Fato)
+- Análises exploratórias e métricas de negócio
+- Documentação técnica completa
 
-⏱️ **Duração total estimada:** 10 dias
-
----
-
-## 4. Alocação de Recursos
-
-| Recurso | Responsabilidade |
-|---|---|
-| Data Engineer | Ingestão, pipelines, modelagem |
-| Analytics Engineer | BI, métricas, dashboards |
-| Data Scientist | Feature engineering com LLM |
-| Plataforma Dadosfera | Integração, governança, visualização |
-
-*(No contexto do case, todas as funções são desempenhadas pelo autor do projeto.)*
+### 3.2 Fora do Escopo
+- Implementação de pipelines em produção (CI/CD)
+- Orquestração com ferramentas externas (ex: Airflow)
+- Machine Learning ou modelos preditivos
+- Integração com APIs externas
 
 ---
 
-## 5. Estimativa de Custos (Alto Nível)
+## 4. Stakeholders
 
-| Item | Descrição |
-|---|---|
-| Plataforma de Dados | Uso da Dadosfera (SaaS) |
-| Processamento | Pipelines e queries |
-| GenAI | Uso de LLM em batch |
-| BI e Data Apps | Metabase + Streamlit |
-
-💡 **Observação:**  
-A centralização das etapas na Dadosfera reduz custos operacionais quando comparado a arquiteturas fragmentadas (ETL + DW + BI + ML separados).
+| Stakeholder           | Papel no Projeto                          |
+|----------------------|-------------------------------------------|
+| Avaliador Técnico    | Avaliação da arquitetura e boas práticas  |
+| Dadosfera            | Plataforma de dados e catalogação         |
+| Desenvolvedor (Autor)| Implementação e documentação do projeto   |
 
 ---
 
-## 6. Análise de Riscos
+## 5. Entregáveis
 
-| Risco | Probabilidade | Impacto | Mitigação |
-|---|---|---|---|
-| Dados incompletos | Média | Alto | Regras de Data Quality |
-| Inconsistência de dados | Média | Alto | Catalogação e CDM |
-| Custo elevado de IA | Baixa | Médio | Processamento em batch |
-| Escopo excessivo | Média | Médio | MVP orientado a valor |
-| Atrasos | Baixa | Médio | Planejamento incremental |
-
----
-
-## 7. Dependências e Pontos Críticos
-
-### Dependências
-- Acesso ao ambiente de Treinamento da Dadosfera
-- Acesso à Internet
-- Disponibilidade do Google Colab
-- Dataset Olist e geração do catálogo sintético
-
-### Pontos Críticos
-- Qualidade dos dados impacta diretamente BI e IA
-- Features geradas por LLM precisam de validação
-- Modelagem correta é essencial para escalabilidade
+- Pipeline de dados organizado por camadas
+- Catálogo de dados documentado
+- Regras de qualidade de dados aplicadas
+- Modelo dimensional na camada GOLD
+- Análises exploratórias
+- Documentação técnica no GitHub
 
 ---
 
-## 8. Critérios de Sucesso do Projeto
+## 6. Cronograma de Alto Nível
 
-- Dados integrados e catalogados com sucesso
-- Relatórios de Data Quality implementados
-- Features de IA geradas a partir de dados desestruturados
-- Dashboards funcionais e informativos
-- Data App operacional
-- Documentação clara e reprodutível
+| Etapa                          | Status |
+|--------------------------------|--------|
+| Planejamento                   | ✔️     |
+| Ingestão de Dados              | ✔️     |
+| Integração e Transformações    | ✔️     |
+| Catalogação e Exploração       | ✔️     |
+| Qualidade de Dados             | ✔️     |
+| Modelagem Dimensional          | ✔️     |
+| Análise de Dados               | ✔️     |
+| Apresentação do Case           | ✔️     |
 
 ---
 
-## 9. Conclusão
+## 7. Metodologia Utilizada
 
-Este planejamento garante uma execução estruturada, alinhada às boas práticas do PMBOK, demonstrando como a **Dadosfera atua como aceleradora do ciclo de vida dos dados**, reduzindo complexidade e aumentando a geração de valor para o negócio.
+A abordagem do **PMBOK** foi utilizada para estruturar o projeto, com foco em:
+- Planejamento claro
+- Definição de escopo
+- Entregáveis bem definidos
+- Rastreabilidade das etapas
+- Documentação como ativo do projeto
 
+---
+
+## 8. Riscos Identificados
+
+| Risco                              | Mitigação                                 |
+|-----------------------------------|-------------------------------------------|
+| Inconsistência nos dados de origem| Validações e regras de Data Quality       |
+| Dados faltantes                   | Tratamento na camada SILVER               |
+| Falta de documentação             | Documentação contínua no GitHub           |
+
+---
+
+## 9. Considerações Finais
+
+Este planejamento garante que o projeto seja executado de forma organizada, rastreável e alinhada às boas práticas de engenharia de dados, refletindo cenários reais enfrentados em ambientes corporativos.
