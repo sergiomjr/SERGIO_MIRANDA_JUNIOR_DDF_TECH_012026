@@ -31,22 +31,13 @@ Os dados foram organizados conforme um **modelo lógico de Data Lake**, amplamen
 Nesta zona encontram-se os dados **exatamente como foram ingeridos**, sem alterações estruturais ou semânticas.
 
 **CAMADA BRONZE(RAW)**
-DDF_TECH_BRONZE_OLIST_ORDERS
-DDF_TECH_BRONZE_OLIST_ORDER_ITEMS
-DDF_TECH_BRONZE_OLIST_CUSTOMERS
-DDF_TECH_BRONZE_OLIST_PRODUCTS
-DDF_TECH_BRONZE_OLIST_SELLERS
+- DDF_TECH_BRONZE_OLIST_ORDERS
+- DDF_TECH_BRONZE_OLIST_ORDER_ITEMS
+- DDF_TECH_BRONZE_OLIST_CUSTOMERS
+- DDF_TECH_BRONZE_OLIST_PRODUCTS
+- DDF_TECH_BRONZE_OLIST_SELLERS
 
-**Camada Silver**
-DDF_TECH_SILVER_OLIST
 
-***Dentro do DDF_TECH_SILVER_OLIST temos as tabelas***
-
-PUBLIC.SILVER__CUSTOMERS
-PUBLIC.SILVER__ORDERS
-PUBLIC.SILVER__ORDER_ITEMS
-PUBLIC.SILVER__PRODUCTS
-PUBLIC.SILVER__SELLERS
 
 **Exemplos de datasets:**
 - `olist_orders_raw`
@@ -66,6 +57,8 @@ PUBLIC.SILVER__SELLERS
 
 A zona STAGING contém dados **limpos, padronizados e validados**, prontos para uso analítico.
 
+
+
 **Transformações aplicadas:**
 - Padronização de nomes de colunas
 - Conversão de tipos (datas, números)
@@ -73,6 +66,17 @@ A zona STAGING contém dados **limpos, padronizados e validados**, prontos para 
 - Remoção de duplicidades
 - Criação de chaves técnicas
 - Tratamento de valores nulos
+
+**Camada Silver**
+DDF_TECH_SILVER_OLIST
+
+***Dentro do DDF_TECH_SILVER_OLIST temos as tabelas***
+
+- PUBLIC.SILVER__CUSTOMERS
+- PUBLIC.SILVER__ORDERS
+- PUBLIC.SILVER__ORDER_ITEMS
+- PUBLIC.SILVER__PRODUCTS
+- PUBLIC.SILVER__SELLERS
 
 **Exemplos de datasets:**
 - `olist_orders_stg`
