@@ -1,174 +1,124 @@
-# 🧱 Modelagem de Dados
+# Modelagem de Dados
 
-## 1. Introdução
+## 1. Objetivo da Etapa
 
-Esta etapa descreve a **modelagem de dados adotada no projeto**, considerando o cenário de um grande **e-commerce**, os objetivos analíticos do negócio e as melhores práticas de **Data Warehousing**.
+Esta etapa tem como objetivo estruturar os dados para **consumo analítico**, aplicando conceitos de **Data Warehouse** e **modelagem dimensional**, seguindo as boas práticas propostas por **Ralph Kimball**.
 
-A modelagem é um dos pilares para garantir:
-- Escalabilidade
-- Performance analítica
-- Facilidade de uso por ferramentas de BI
-- Consistência semântica
-- Suporte a análises avançadas e IA
+A modelagem foi realizada na **camada GOLD**, utilizando dados previamente tratados e validados nas camadas BRONZE e SILVER.
 
 ---
 
-## 2. Abordagem de Modelagem Escolhida
+## 2. Abordagem de Modelagem
 
-Foi adotada a **modelagem dimensional (Kimball)** como padrão principal do projeto.
+Foi adotado o **modelo dimensional (Star Schema)**, composto por:
+- **Tabelas Dimensão (DIM)**: atributos descritivos
+- **Tabelas Fato (FACT)**: métricas e eventos de negócio
 
-### 2.1 Justificativa da Escolha (Kimball)
-
-A escolha pela modelagem Kimball se justifica por:
-- Forte orientação a BI e analytics
-- Simplicidade de entendimento para usuários de negócio
-- Excelente integração com ferramentas como Metabase
-- Flexibilidade para criação de múltiplas visões analíticas
-- Boa performance em consultas agregadas
-
-Essa abordagem é especialmente adequada para o contexto de **e-commerce**, onde análises por tempo, categoria, cliente e logística são frequentes.
+Essa abordagem facilita:
+- Consultas analíticas
+- Integração com ferramentas de BI
+- Escalabilidade do modelo
+- Performance de consultas
 
 ---
 
-## 3. Visões Analíticas Definidas
+## 3. Granularidade da Tabela Fato
 
-Foram definidas **duas visões finais principais**, alinhadas às necessidades do cliente:
+📌 **Grão definido para a tabela fato (FACT_SALES):**
 
-1. **Visão Comercial (Vendas)**
-2. **Visão Operacional (Logística e SLA)**
+> Cada linha representa **um item vendido dentro de um pedido**, identificado pela combinação  
+> `order_id` + `order_item_id`.
 
-Essas visões são independentes, mas compartilham dimensões comuns, garantindo consistência analítica.
-
----
-
-## 4. Visão 1 – Comercial (Vendas)
-
-### 4.1 Tabela Fato – `fact_sales`
-
-**Granularidade:**  
-1 linha por **item de pedido** (order_item)
-
-**Métricas Principais:**
-- `price`
-- `freight_value`
-- `payment_value`
-- `quantity`
-- `revenue` (derivada)
+Essa granularidade permite:
+- Agregações corretas por produto, cliente, vendedor e tempo
+- Flexibilidade para análises detalhadas e consolidadas
 
 ---
 
-### 4.2 Dimensões Associadas
+## 4. Dimensões do Modelo
 
-| Dimensão | Descrição |
-|---|---|
-| `dim_date` | Datas de pedido |
-| `dim_product` | Informações do produto |
-| `dim_customer` | Dados do cliente |
-| `dim_seller` | Dados do vendedor |
-| `dim_geography` | Localização |
-| `dim_payment_type` | Forma de pagamento |
+### 4.1 DIM_CUSTOMER
+- Fonte: SILVER_CUSTOMERS
+- Granularidade: 1 registro por cliente
+- Principais atributos: cidade, estado, CEP prefixo
+- Tipo de chave: **Natural Key**
+- Preparada para evolução com SCD
 
 ---
 
-### 4.3 Exemplo de Estrutura – `fact_sales`
-
-| Campo | Tipo | Descrição |
-|---|---|---|
-| order_id | string | Identificador do pedido |
-| product_id | string | Identificador do produto |
-| customer_id | string | Identificador do cliente |
-| seller_id | string | Identificador do vendedor |
-| date_key | int | Chave da dimensão data |
-| price | numeric | Valor do produto |
-| freight_value | numeric | Valor do frete |
-| quantity | int | Quantidade |
-| revenue | numeric | Receita total |
+### 4.2 DIM_PRODUCT
+- Fonte: SILVER_PRODUCTS
+- Granularidade: 1 registro por produto
+- Principais atributos: categoria, peso, dimensões
+- Tipo de chave: **Natural Key**
+- Suporte a análises logísticas e de portfólio
 
 ---
 
-## 5. Visão 2 – Operacional (Logística)
-
-### 5.1 Tabela Fato – `fact_delivery`
-
-**Granularidade:**  
-1 linha por **pedido**
-
-**Métricas Principais:**
-- `delivery_days`
-- `estimated_delivery_days`
-- `delivery_delay_days`
-- `is_late` (flag)
+### 4.3 DIM_SELLER
+- Fonte: SILVER_SELLERS
+- Granularidade: 1 registro por vendedor
+- Principais atributos: cidade, estado, CEP prefixo
+- Tipo de chave: **Natural Key**
+- Permite análises regionais de performance
 
 ---
 
-### 5.2 Dimensões Associadas
-
-| Dimensão | Descrição |
-|---|---|
-| `dim_date` | Datas do pedido e entrega |
-| `dim_customer` | Cliente |
-| `dim_seller` | Vendedor |
-| `dim_origin_geo` | Origem do envio |
-| `dim_destination_geo` | Destino do cliente |
+### 4.4 DIM_DATE
+- Dimensão de calendário
+- Granularidade: 1 registro por dia
+- Principais atributos: dia, mês, ano, dia da semana
+- Utilizada para análises temporais
 
 ---
 
-### 5.3 Exemplo de Estrutura – `fact_delivery`
+## 5. Tabela Fato
 
-| Campo | Tipo | Descrição |
-|---|---|---|
-| order_id | string | Identificador do pedido |
-| order_date | date | Data da compra |
-| delivered_date | date | Data da entrega |
-| estimated_date | date | Data estimada |
-| delivery_days | int | Dias até entrega |
-| delivery_delay_days | int | Dias de atraso |
-| is_late | boolean | Indicador de atraso |
-
----
-
-## 6. Dimensão de Produto Enriquecida com IA
-
-A dimensão de produto (`dim_product`) foi **enriquecida com features extraídas por LLM**, provenientes do catálogo desestruturado.
-
-### Exemplos de Atributos Enriquecidos
-- Categoria normalizada
-- Material
-- Compatibilidade
-- Atributos técnicos
-- Claims de marketing
-
-Essas features permitem análises mais ricas e suportam:
-- Recomendação de produtos
-- Similaridade
-- Segmentação avançada
+### FACT_SALES
+- Fonte: SILVER_ORDERS + SILVER_ORDER_ITEMS
+- Granularidade: item do pedido
+- Métricas principais:
+  - price
+  - freight_value
+  - total_item_value
+- Relacionamentos:
+  - DIM_CUSTOMER
+  - DIM_PRODUCT
+  - DIM_SELLER
+  - DIM_DATE
 
 ---
 
-## 7. Camadas do Data Warehouse
+## 6. Relacionamentos do Modelo
 
-O Data Warehouse segue uma organização lógica em camadas:
+O modelo segue o padrão **estrela**, onde:
+- A tabela fato se conecta diretamente a todas as dimensões
+- Não há relacionamentos diretos entre dimensões
 
-- **STAGING:** dados tratados e normalizados
-- **DW:** fatos e dimensões
-- **MART:** visões específicas para BI e Data Apps
-
-Essa separação facilita manutenção, evolução e governança.
+Isso garante simplicidade e performance.
 
 ---
 
-## 8. Benefícios da Modelagem Proposta
+## 7. Considerações sobre Chaves
 
-A modelagem adotada oferece:
-- Alta performance analítica
-- Facilidade de criação de dashboards
-- Clareza semântica
-- Base sólida para IA e Data Apps
-- Escalabilidade futura
+Neste projeto, foram utilizadas **chaves naturais** provenientes do sistema de origem (ex.: `customer_id`, `product_id`, `seller_id`) para fins de simplicidade.
+
+Em um ambiente produtivo, recomenda-se o uso de **Surrogate Keys**, visando:
+- Melhor performance em joins
+- Independência das chaves de origem
+- Suporte a controle de histórico (SCD)
 
 ---
 
-## 9. Considerações Finais
+## 8. Benefícios do Modelo Adotado
 
-A modelagem dimensional baseada em Kimball atende plenamente aos requisitos do case, proporcionando uma estrutura clara, eficiente e preparada para análises estratégicas, operacionais e uso avançado de Inteligência Artificial dentro da Plataforma Dadosfera.
+- Facilidade de entendimento
+- Flexibilidade analítica
+- Compatibilidade com ferramentas de BI
+- Aderência a boas práticas de Data Warehouse
 
+---
+
+## 9. Conclusão
+
+A modelagem dimensional implementada na camada GOLD fornece uma base sólida e escalável para análises de negócio, atendendo aos requisitos do projeto e refletindo padrões utilizados em ambientes corporativos.
