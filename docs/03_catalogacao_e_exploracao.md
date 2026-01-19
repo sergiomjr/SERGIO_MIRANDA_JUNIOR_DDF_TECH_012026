@@ -73,6 +73,11 @@ Nesta camada, a catalogação enfatiza:
 A camada GOLD contém os dados finais para análise, seguindo modelo dimensional e data marts.
 
 **Tabelas catalogadas:**
+
+- SERGIO_MIRANDA_DDF_TECH_GOLD_OLIST
+
+ Dentro dela temos:
+ 
 - GOLD_DIM_CUSTOMER  
 - GOLD_DIM_PRODUCT  
 - GOLD_DIM_SELLER  
