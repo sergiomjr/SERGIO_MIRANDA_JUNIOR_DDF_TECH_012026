@@ -50,6 +50,11 @@ Para cada tabela foram documentados:
 A camada SILVER contém dados tratados e padronizados, prontos para consumo analítico intermediário.
 
 **Tabelas catalogadas:**
+
+- DDF_TECH_SILVER_OLIST_ORDERS
+- DDF_TECH_SILVER_OLIST_SELLERS
+
+Dentro delas temos:
 - SILVER_CUSTOMERS  
 - SILVER_ORDERS  
 - SILVER_ORDER_ITEMS  
