@@ -82,12 +82,12 @@ As seguintes estratégias foram adotadas:
 ```sql
 -- Verificação de chaves nulas
 SELECT COUNT(*) 
-FROM silver_orders
+FROM silver.orders
 WHERE order_id IS NULL;
 
 -- Verificação de datas inconsistentes
 SELECT *
-FROM silver_orders
+FROM silver.orders
 WHERE order_delivered_customer_date < order_approved_at;
 ````
 6. Resultados da Qualidade de Dados
